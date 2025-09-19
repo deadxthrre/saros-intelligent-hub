@@ -1,7 +1,7 @@
 'use client'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { DLMMPosition } from '@/types'
-import { formatCurrency, formatNumber, truncateAddress } from '@/lib/utils'
+import { formatCurrency, truncateAddress } from '@/lib/utils'
 import { ExternalLink, TrendingUp, TrendingDown } from 'lucide-react'
 import Image from 'next/image'
 
