@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  telegramId    String?   @unique
+  walletAddress String?
+  username      String?
+  isActive      Boolean   @default(true)
+  preferences   Json?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  strategies    RebalanceStrategy[]
+  alerts        Alert[]
+  
+  @@map("users")
+}
+
+model RebalanceStrategy {
+  id                String    @id @default(cuid())
+  userId            String
+  name              String
+  description       String?
+  parameters        Json
+  isActive          Boolean   @default(false)
+  lastExecuted      DateTime?
+  executionCount    Int       @default(0)
+  totalGasSpent     Float     @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("rebalance_strategies")
+}
+
+model Alert {
+  id            String    @id @default(cuid())
+  userId        String
+  type          String    // 'pnl', 'price', 'rebalance', 'fee'
+  conditions    Json
+  isActive      Boolean   @default(true)
+  lastTriggered DateTime?
+  triggerCount  Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("alerts")
+}
+
+model Transaction {
+  id              String    @id @default(cuid())
+  signature       String    @unique
+  type            String    // 'rebalance', 'add_liquidity', 'remove_liquidity'
+  walletAddress   String
+  poolAddress     String
+  amount          Float?
+  gasUsed         Float?
+  status          String    @default("pending") // 'pending', 'confirmed', 'failed'
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  confirmedAt     DateTime?
+  
+  @@map("transactions")
+}

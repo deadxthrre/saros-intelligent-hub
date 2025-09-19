@@ -1,0 +1,30 @@
+{
+  "name": "saros-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon --watch src --exec ts-node src/app.ts",
+    "start": "node dist/app.js",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "dotenv": "^16.4.5",
+    "telegraf": "^4.16.3",
+    "@prisma/client": "^5.19.1",
+    "@solana/web3.js": "^1.95.3",
+    "@saros-finance/dlmm-sdk": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.2",
+    "@types/node": "^20.12.12",
+    "@types/express": "^4.17.21",
+    "ts-node": "^10.9.2",
+    "nodemon": "^3.1.4",
+    "prisma": "^5.19.1"
+  }
+}
