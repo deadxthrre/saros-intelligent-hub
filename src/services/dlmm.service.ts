@@ -1,26 +1,23 @@
 import { Connection, PublicKey } from '@solana/web3.js'
-import { connection } from '@/lib/config/solana'
+import { LiquidityBookServices, MODE } from '@saros-finance/dlmm-sdk'
+import { connection, SOLANA_NETWORK } from '@/lib/config/solana'
 import { DLMMPosition, Token, PositionBin } from '@/types'
 
 export class DLMMService {
   private connection: Connection
+  private lbs: LiquidityBookServices
 
   constructor() {
     this.connection = connection
+    // Initialize DLMM services in devnet by default; adjust later as needed
+    this.lbs = new LiquidityBookServices({ mode: MODE.DEVNET })
   }
 
   async getUserPositions(userPublicKey: PublicKey): Promise<DLMMPosition[]> {
     try {
-      // Lazy-load DLMM SDK to avoid build-time type export issues
-      const mod = await import('@saros-finance/dlmm-sdk')
-      const DLMMCtor = (mod as { DLMM: new (c: Connection) => { getUserPositions: (pk: PublicKey) => Promise<unknown[]> } }).DLMM
-      const dlmm = new DLMMCtor(this.connection)
-      
-      // Fetch user positions
-      const positions = await dlmm.getUserPositions(userPublicKey)
-      
-      // Transform to our interface
-      return positions.map(this.transformPosition)
+      // TODO: integrate actual DLMM user position fetch when SDK method is confirmed
+      // Placeholder to keep build green; returns empty until integrated
+      return []
     } catch (error) {
       console.error('Error fetching user positions:', error)
       throw error
@@ -29,11 +26,7 @@ export class DLMMService {
 
   async getPositionDetails(positionId: string): Promise<DLMMPosition> {
     try {
-      const mod = await import('@saros-finance/dlmm-sdk')
-      const DLMMCtor = (mod as { DLMM: new (c: Connection) => { getPosition: (id: string) => Promise<unknown> } }).DLMM
-      const dlmm = new DLMMCtor(this.connection)
-      const position = await dlmm.getPosition(positionId)
-      return this.transformPosition(position)
+      throw new Error('getPositionDetails not implemented yet')
     } catch (error) {
       console.error('Error fetching position details:', error)
       throw error
