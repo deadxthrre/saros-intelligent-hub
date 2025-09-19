@@ -2,6 +2,18 @@ import { Connection, PublicKey } from '@solana/web3.js'
 import { connection } from '@/lib/config/solana'
 import { DLMMPosition, Token, PositionBin } from '@/types'
 
+interface PoolInfo {
+  poolAddress: string;
+  tokenX: Token;
+  tokenY: Token;
+  currentPrice: number;
+  activeId: number;
+  binStep: number;
+  liquidity: number;
+  volume24h: number;
+  fees24h: number;
+}
+
 export class DLMMService {
   private connection: Connection
 
@@ -37,7 +49,7 @@ export class DLMMService {
     }
   }
 
-  async getPoolInfo(poolAddress: string): Promise<any> {
+  async getPoolInfo(poolAddress: string): Promise<PoolInfo> {
     try {
       // TODO: Replace with actual SDK calls
       // const dlmm = new DLMM(this.connection)
@@ -53,6 +65,7 @@ export class DLMMService {
 
   async getCurrentPrice(poolAddress: string): Promise<number> {
     try {
+      void poolAddress
       // TODO: Replace with actual SDK calls
       // const poolInfo = await this.getPoolInfo(poolAddress)
       // return poolInfo.currentPrice
@@ -186,7 +199,7 @@ export class DLMMService {
     })
   }
 
-  private getMockPoolInfo(poolAddress: string): any {
+  private getMockPoolInfo(poolAddress: string): PoolInfo {
     return {
       poolAddress,
       tokenX: this.getMockToken('SOL'),
