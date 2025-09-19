@@ -1,5 +1,4 @@
 import { Connection, PublicKey } from '@solana/web3.js'
-import { DLMM } from '@saros-finance/dlmm-sdk'
 import { connection } from '@/lib/config/solana'
 import { DLMMPosition, Token, PositionBin } from '@/types'
 
@@ -12,8 +11,10 @@ export class DLMMService {
 
   async getUserPositions(userPublicKey: PublicKey): Promise<DLMMPosition[]> {
     try {
-      // Initialize DLMM SDK
-      const dlmm = new DLMM(this.connection)
+      // Lazy-load DLMM SDK to avoid build-time type export issues
+      const mod = await import('@saros-finance/dlmm-sdk')
+      const DLMMCtor = (mod as { DLMM: new (c: Connection) => { getUserPositions: (pk: PublicKey) => Promise<unknown[]> } }).DLMM
+      const dlmm = new DLMMCtor(this.connection)
       
       // Fetch user positions
       const positions = await dlmm.getUserPositions(userPublicKey)
@@ -28,7 +29,9 @@ export class DLMMService {
 
   async getPositionDetails(positionId: string): Promise<DLMMPosition> {
     try {
-      const dlmm = new DLMM(this.connection)
+      const mod = await import('@saros-finance/dlmm-sdk')
+      const DLMMCtor = (mod as { DLMM: new (c: Connection) => { getPosition: (id: string) => Promise<unknown> } }).DLMM
+      const dlmm = new DLMMCtor(this.connection)
       const position = await dlmm.getPosition(positionId)
       return this.transformPosition(position)
     } catch (error) {
