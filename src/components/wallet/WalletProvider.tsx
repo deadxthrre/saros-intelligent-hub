@@ -14,7 +14,7 @@ export function AppWalletProvider({ children }: { children: React.ReactNode }) {
       new PhantomWalletAdapter(),
       new SolflareWalletAdapter({ network: SOLANA_NETWORK as WalletAdapterNetwork }),
     ],
-    [SOLANA_NETWORK]
+    []
   )
 
   return (

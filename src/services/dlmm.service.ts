@@ -37,7 +37,27 @@ export class DLMMService {
     }
   }
 
-  private transformPosition(position: any): DLMMPosition {
+  private transformPosition(position: {
+    id: string;
+    poolAddress: string;
+    userAddress: string;
+    tokenX: Token;
+    tokenY: Token;
+    activeId: number;
+    totalXAmount: number;
+    totalYAmount: number;
+    totalUSDValue: number;
+    pnl: number;
+    feesEarned: number;
+    bins: Array<{
+      binId: number;
+      price: number;
+      xAmount: number;
+      yAmount: number;
+      totalSupply: number;
+      userShare: number;
+    }>;
+  }): DLMMPosition {
     // Transform SDK position to our interface
     return {
       id: position.id,
@@ -56,7 +76,14 @@ export class DLMMService {
     }
   }
 
-  private transformToken(token: any): Token {
+  private transformToken(token: {
+    address: string;
+    symbol: string;
+    name: string;
+    decimals: number;
+    logoURI?: string;
+    coingeckoId?: string;
+  }): Token {
     return {
       address: token.address,
       symbol: token.symbol,
@@ -67,7 +94,14 @@ export class DLMMService {
     }
   }
 
-  private transformBin(bin: any): PositionBin {
+  private transformBin(bin: {
+    binId: number;
+    price: number;
+    xAmount: number;
+    yAmount: number;
+    totalSupply: number;
+    userShare: number;
+  }): PositionBin {
     return {
       binId: bin.binId,
       price: bin.price,
