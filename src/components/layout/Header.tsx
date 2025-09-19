@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link'
 import { WalletButton } from '@/components/wallet/WalletButton'
-import { cn } from '@/lib/utils'
 
 export function Header() {
   return (
