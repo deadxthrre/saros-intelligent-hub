@@ -1,6 +1,6 @@
 import { Connection, PublicKey, Transaction } from '@solana/web3.js'
 import { connection } from '@/lib/config/solana'
-import { DLMMPosition, RebalanceStrategy, RebalanceParams } from '@/types'
+import { DLMMPosition, RebalanceStrategy } from '@/types'
 import { dlmmService } from '@/services/dlmm.service'
 
 export class RebalancingService {
@@ -85,17 +85,19 @@ export class RebalancingService {
     strategy: RebalanceStrategy, 
     currentPrice: number
   ): Promise<Transaction[]> {
+    // mark parameters as used for ESLint until real implementation
+    void position; void strategy; void currentPrice
     // STUB: Create placeholder transactions without DLMM SDK
     const tx1 = new Transaction()
     const tx2 = new Transaction()
     return [tx1, tx2]
   }
 
-  private async calculateOptimalBinDistribution(position: DLMMPosition, currentPrice: number): Promise<any> {
+  private async calculateOptimalBinDistribution(position: DLMMPosition, currentPrice: number): Promise<BinDistributionEntry[]> {
     const totalLiquidity = position.totalXAmount + position.totalYAmount
     const binCount = 10
     const priceRange = 0.1
-    const distribution = [] as Array<{ price: number; xAmount: number; yAmount: number }>
+    const distribution: BinDistributionEntry[] = []
     const priceStep = (priceRange * 2) / binCount
     for (let i = 0; i < binCount; i++) {
       const binPrice = currentPrice * (1 - priceRange + (i * priceStep))
@@ -130,7 +132,9 @@ interface RebalanceOpportunity {
   priceDeviation: number
   estimatedGas: number
   transactions?: Transaction[]
-  newBinDistribution?: any
+  newBinDistribution?: BinDistributionEntry[]
 }
 
 export const rebalancingService = new RebalancingService()
+
+type BinDistributionEntry = { price: number; xAmount: number; yAmount: number }
