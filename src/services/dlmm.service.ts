@@ -1,6 +1,6 @@
 import { Connection, PublicKey } from '@solana/web3.js'
 import { LiquidityBookServices, MODE } from '@saros-finance/dlmm-sdk'
-import { connection, SOLANA_NETWORK } from '@/lib/config/solana'
+import { connection } from '@/lib/config/solana'
 import { DLMMPosition, Token, PositionBin } from '@/types'
 
 export class DLMMService {
@@ -15,6 +15,8 @@ export class DLMMService {
 
   async getUserPositions(userPublicKey: PublicKey): Promise<DLMMPosition[]> {
     try {
+      // mark parameter as used for ESLint
+      void userPublicKey
       // TODO: integrate actual DLMM user position fetch when SDK method is confirmed
       // Placeholder to keep build green; returns empty until integrated
       return []
@@ -26,6 +28,8 @@ export class DLMMService {
 
   async getPositionDetails(positionId: string): Promise<DLMMPosition> {
     try {
+      // mark parameter as used for ESLint
+      void positionId
       throw new Error('getPositionDetails not implemented yet')
     } catch (error) {
       console.error('Error fetching position details:', error)
