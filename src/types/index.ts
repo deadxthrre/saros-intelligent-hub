@@ -1,4 +1,4 @@
-import { PublicKey } from '@solana/web3.js';
+// Note: No direct imports needed here currently
 
 export interface DLMMPosition {
   id: string;
