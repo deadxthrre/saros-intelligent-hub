@@ -2,7 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { AppWalletProvider } from '@/components/wallet/WalletProvider';
 import { Header } from '@/components/layout/Header';
-import { Providers } from '@/components/providers/Providers';
+import { QueryProvider } from '@/components/providers/QueryProvider';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'Saros Intelligence Hub',
@@ -11,14 +12,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <AppWalletProvider>
-          <Providers>
-            <Header />
-            {children}
-          </Providers>
-        </AppWalletProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <QueryProvider>
+            <AppWalletProvider>
+              <Header />
+              {children}
+            </AppWalletProvider>
+          </QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
