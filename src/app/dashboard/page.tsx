@@ -6,24 +6,11 @@ export default function DashboardPage() {
           <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
           <p className="text-gray-600 mt-2">Monitor your DLMM positions and portfolio performance</p>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
-            <h3 className="text-sm font-medium text-gray-500">Total Value</h3>
-            <p className="text-2xl font-bold text-gray-900 mt-2">$15,750.00</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
-            <h3 className="text-sm font-medium text-gray-500">P&L</h3>
-            <p className="text-2xl font-bold text-green-600 mt-2">+$510.00</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
-            <h3 className="text-sm font-medium text-gray-500">Fees Earned</h3>
-            <p className="text-2xl font-bold text-green-600 mt-2">$215.00</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
-            <h3 className="text-sm font-medium text-gray-500">Positions</h3>
-            <p className="text-2xl font-bold text-gray-900 mt-2">3</p>
-          </div>
-        </div>
+        {/* Live analytics cards */}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-expect-error Server Component file importing client component is fine here */}
+        {/* The component itself is marked 'use client' */}
+        {require('@/components/dashboard/DashboardAnalytics').DashboardAnalytics()}
         <div className="mt-8 bg-white p-6 rounded-lg shadow-sm border">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Status</h2>
           <div className="space-y-2 text-sm">
