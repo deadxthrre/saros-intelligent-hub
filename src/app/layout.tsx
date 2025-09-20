@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { AppWalletProvider } from '@/components/wallet/WalletProvider';
 import { Header } from '@/components/layout/Header';
+import { Providers } from '@/components/providers/Providers';
 
 export const metadata: Metadata = {
   title: 'Saros Intelligence Hub',
@@ -13,8 +14,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <AppWalletProvider>
-          <Header />
-          {children}
+          <Providers>
+            <Header />
+            {children}
+          </Providers>
         </AppWalletProvider>
       </body>
     </html>
